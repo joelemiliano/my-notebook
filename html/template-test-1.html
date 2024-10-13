@@ -51,13 +51,16 @@
                         template = template.replace(new RegExp(placeholder, 'g'), paramValue); // Usar RegExp para reemplazar todas las instancias
                     });
 
-                    return template;
+                    return template; // Devolver la plantilla procesada
                 }
                 return match; // Si la plantilla no existe, deja el texto sin cambios
             });
 
             // Eliminar la etiqueta <templates> del DOM
-            document.querySelector('templates').remove();
+            const templatesTag = document.querySelector('templates');
+            if (templatesTag) {
+                templatesTag.remove();
+            }
         }
 
         // Ejecutar la función al cargar la página
