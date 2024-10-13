@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plantillas con Parámetros</title>
+
+    <!-- Definición de las plantillas -->
+    <templates>
+        $fruits = "There are **1** apples and **2** oranges!";
+        $greeting = "Hello, **1**! Welcome to **2**.";
+    </templates>
+</head>
+<body>
+
+    <!-- Ejemplo de uso de las plantillas con parámetros -->
+    <p>$fruits:1=5,2=8</p> <!-- Esto debería mostrar: "There are 5 apples and 8 oranges!" -->
+    <p>$greeting:1=John,2=our site</p> <!-- Esto debería mostrar: "Hello, John! Welcome to our site." -->
+
+    <!-- Script para manejar las plantillas -->
+    <script>
+        function applyTemplates() {
+            // Obtener el contenido de las plantillas
+            const templatesContent = document.querySelector('templates').textContent;
+            const templateVars = {};
+            const templateLines = templatesContent.split(';');
+
+            // Crear un objeto con las plantillas
+            templateLines.forEach(line => {
+                if (line.trim()) {
+                    const [key, value] = line.split('=');
+                    const varName = key.trim(); // Nombre de la plantilla (ej. $fruits)
+                    const varValue = value.trim().replace(/(^"|"$)/g, ''); // Valor de la plantilla (ej. texto)
+                    templateVars[varName] = varValue;
+                }
+            });
+
+            // Reemplazar las plantillas en el documento
+            document.body.innerHTML = document.body.innerHTML.replace(/\$[a-zA-Z0-9_]+:[0-9=,]+/g, function(match) {
+                // Obtener el nombre de la plantilla y los parámetros
+                const [varName, params] = match.split(':');
+                if (templateVars[varName]) {
+                    let template = templateVars[varName];
+
+                    // Procesar los parámetros en formato "1=5,2=8"
+                    const paramPairs = params.split(',').map(pair => pair.split('='));
+                    paramPairs.forEach(([paramKey, paramValue]) => {
+                        const placeholder = `**${paramKey}**`; // Lo que hay que reemplazar (ej. **1**)
+                        template = template.replace(placeholder, paramValue);
+                    });
+                    
+                    return template;
+                }
+                return match; // Si la plantilla no existe, deja el texto sin cambios
+            });
+
+            // Eliminar la etiqueta <templates> del DOM
+            document.querySelector('templates').remove();
+        }
+
+        // Ejecutar la función al cargar la página
+        document.addEventListener('DOMContentLoaded', applyTemplates);
+    </script>
+
+</body>
+</html>
