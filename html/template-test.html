@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plantillas Personalizadas</title>
+
+    <!-- Definición de las plantillas -->
+    <templates>
+        $text = "<div>Hello World!</div>";
+        $greeting = "<p>¡Bienvenidos a mi sitio web!</p>";
+    </templates>
+</head>
+<body>
+
+    <!-- Ejemplo de uso de las plantillas -->
+    <p>Aquí está una plantilla: $text</p>
+    <p>Otra plantilla: $greeting</p>
+
+    <!-- Script para manejar las plantillas -->
+    <script>
+        // Función que carga y reemplaza plantillas
+        function applyTemplates() {
+            // Obtener el contenido de las plantillas
+            const templatesContent = document.querySelector('templates').textContent;
+
+            // Convertir las plantillas en un objeto donde las claves son los nombres de las variables
+            const templateVars = {};
+            const templateLines = templatesContent.split(';');
+
+            templateLines.forEach(line => {
+                if (line.trim()) {
+                    const [key, value] = line.split('=');
+                    const varName = key.trim();      // Por ejemplo, $text
+                    const varValue = value.trim().replace(/(^"|"$)/g, '');  // Valor sin comillas
+                    templateVars[varName] = varValue;
+                }
+            });
+
+            // Reemplazar todas las variables en el documento con sus valores
+            document.body.innerHTML = document.body.innerHTML.replace(/\$[a-zA-Z0-9_]+/g, function(match) {
+                return templateVars[match] || match;  // Si no encuentra la plantilla, deja el texto igual
+            });
+        }
+
+        // Ejecutar la función al cargar la página
+        document.addEventListener('DOMContentLoaded', applyTemplates);
+    </script>
+
+</body>
+</html>
