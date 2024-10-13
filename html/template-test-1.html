@@ -44,11 +44,13 @@
 
                     // Procesar los parámetros en formato "1=5,2=8"
                     const paramPairs = params.split(',').map(pair => pair.split('='));
+                    
+                    // Reemplazar todos los placeholders de la plantilla
                     paramPairs.forEach(([paramKey, paramValue]) => {
                         const placeholder = `**${paramKey}**`; // Lo que hay que reemplazar (ej. **1**)
-                        template = template.replace(placeholder, paramValue);
+                        template = template.replace(new RegExp(placeholder, 'g'), paramValue); // Usar RegExp para reemplazar todas las instancias
                     });
-                    
+
                     return template;
                 }
                 return match; // Si la plantilla no existe, deja el texto sin cambios
