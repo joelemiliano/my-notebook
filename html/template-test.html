@@ -41,6 +41,9 @@
             document.body.innerHTML = document.body.innerHTML.replace(/\$[a-zA-Z0-9_]+/g, function(match) {
                 return templateVars[match] || match;  // Si no encuentra la plantilla, deja el texto igual
             });
+
+            // Eliminar la etiqueta <templates> después de procesarlo
+            document.querySelector('templates').remove();
         }
 
         // Ejecutar la función al cargar la página
