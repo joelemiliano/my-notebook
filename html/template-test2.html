@@ -18,7 +18,7 @@ function applyTemplates() {
     // Reemplazar en el HTML las variables con su valor correspondiente
     document.body.innerHTML = document.body.innerHTML.replace(/\$[a-zA-Z0-9_]+/g, function(match) {
         const varName = match.replace('$', ''); // Eliminar el símbolo $ para encontrar la variable en JS
-        return window[varName] !== undefined && window[varName] !== "" ? window[varName] : '<span style="color:red;">Empty template value</span>';
+        return window[varName] !== undefined && window[varName] !== "" ? window[varName] : '<span style="color:red;">(!) Empty template value</span>';
     });
     // Eliminar la etiqueta <templates> del DOM
     const templates = document.querySelector('templates');
