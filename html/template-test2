@@ -1,0 +1,45 @@
+<head>
+<script>
+        // Función que carga las plantillas y las convierte en variables globales de JS
+        function applyTemplates() {
+            // Obtener el contenido de las plantillas
+            const templatesContent = document.querySelector('templates').textContent;
+
+            // Separar las líneas de las plantillas
+            const templateLines = templatesContent.split(';');
+
+            templateLines.forEach(line => {
+                if (line.trim()) {
+                    const [key, value] = line.split('=');
+                    const varName = key.trim().replace('$', ''); // Eliminar el símbolo $ para hacer la variable válida en JS
+                    const varValue = value.trim().replace(/(^"|"$)/g, ''); // Eliminar comillas del valor
+
+                    // Definir la variable global en JS
+                    window[varName] = varValue;
+                }
+            });
+
+            // Reemplazar en el HTML las variables con su valor correspondiente
+            document.body.innerHTML = document.body.innerHTML.replace(/\$[a-zA-Z0-9_]+/g, function(match) {
+                const varName = match.replace('$', ''); // Eliminar el símbolo $ para encontrar la variable en JS
+                return window[varName] !== undefined && window[varName] !== "" ? window[varName] : '<span style="color:red;">Empty template value</span>';
+            });
+
+            // Eliminar la etiqueta <templates> del DOM
+            const templates = document.querySelector('templates');
+            if (templates) {
+                templates.remove();
+            }
+        }
+
+        // Ejecutar la función cuando el DOM esté completamente cargado
+        document.addEventListener('DOMContentLoaded', applyTemplates);
+</script>
+
+<templates>
+$hello = "<h2>Hello World!</h2>";
+</templates>
+
+<body>
+$hello
+</body>
