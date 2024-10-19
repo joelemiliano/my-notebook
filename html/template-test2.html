@@ -3,7 +3,7 @@
 // Función que carga las plantillas y las convierte en variables globales de JS
 function applyTemplates() {
     // Obtener el contenido de las plantillas
-    const templatesContent = document.querySelector('templates').textContent;
+    const templatesContent = document.querySelector('templates').innerHTML; // Cambiado a innerHTML para conservar las etiquetas HTML
     // Separar las líneas de las plantillas
     const templateLines = templatesContent.split(';');
     templateLines.forEach(line => {
