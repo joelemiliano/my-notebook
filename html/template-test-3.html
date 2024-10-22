@@ -1,12 +1,11 @@
 <head>
-<script>
-<head>
-
     <script>
-        // Función que carga las plantillas y las convierte en variables globales de JS
+        // Función que carga las plantillas y las convierte en variables de JS
         function applyTemplates() {
-            // Obtener el contenido de las plantillas
-            const templatesContent = document.querySelector('templates').textContent;
+            // Obtener el contenido de las plantillas y eliminarlo del DOM inmediatamente
+            const templatesElement = document.querySelector('templates');
+            const templatesContent = templatesElement.textContent;
+            templatesElement.remove();
 
             // Separar las líneas de las plantillas
             const templateLines = templatesContent.split(';');
@@ -27,12 +26,6 @@
                 const varName = match.replace('$', ''); // Eliminar el símbolo $ para encontrar la variable en JS
                 return window[varName] !== undefined && window[varName] !== "" ? window[varName] : '<span style="color:red;">Empty template value</span>';
             });
-
-            // Eliminar la etiqueta <templates> del DOM
-            const templates = document.querySelector('templates');
-            if (templates) {
-                templates.remove();
-            }
         }
 
         // Ejecutar la función cuando el DOM esté completamente cargado
