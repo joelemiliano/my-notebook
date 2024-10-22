@@ -3,7 +3,7 @@
         // Función que carga las plantillas y las convierte en variables de JS
         function applyTemplates() {
             // Obtener el contenido de las plantillas y eliminarlo del DOM inmediatamente
-            const templatesElement = document.querySelector('templates');
+            const templatesElement = document.querySelector('templates').innerHTML;
             const templatesContent = templatesElement.textContent;
             templatesElement.remove();
 
